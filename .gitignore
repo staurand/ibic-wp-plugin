@@ -11,3 +11,4 @@ vendor/
 assets/dist/
 assets/src/sw
 .idea
+/.phpunit.result.cache

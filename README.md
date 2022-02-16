@@ -1,5 +1,5 @@
 # IBIC #
-**Contributors:** staurand  
+**Contributors:** [staurand](https://profiles.wordpress.org/staurand/)  
 **Tags:** image optimization, webp  
 **Requires at least:** 5.2  
 **Tested up to:** 5.9  
