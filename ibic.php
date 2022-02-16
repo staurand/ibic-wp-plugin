@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name:     IBIC
+ * Plugin Name:     In Browser Image Compression
  * Plugin URI:      https://github.com/staurand/ibic-wp-plugin
  * Description:     Compress your images in your browser!
  * Author:          Stéphane Taurand

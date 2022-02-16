@@ -1,4 +1,4 @@
-=== IBIC ===
+=== In Browser Image Compression ===
 Contributors: staurand
 Tags: image optimization, webp
 Requires at least: 5.2
