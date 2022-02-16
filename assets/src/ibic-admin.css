@@ -1,0 +1,65 @@
+.ibic-placeholder {
+	display: inline-block;
+	position: relative;
+	z-index: 200;
+}
+
+.ibic-list[aria-hidden="true"] {
+	display: none;
+}
+.ibic-list {
+	position: absolute;
+	width: 300px;
+	top: 100%;
+	left: 0;
+	background: #FFF;
+	box-shadow: 0 5px 5px rgba(0,0,0,.4);
+	border: 1px solid #c3c4c7;
+	padding: 5px 10px;
+	max-height: 300px;
+	overflow: auto;
+}
+.ibic-list__item {
+	display: flex;
+	padding: 5px 0;
+	height: 20px;
+	margin-bottom: 5px;
+}
+.ibic-list__item__thumbnail {
+	width: 20px;
+	flex: 0 0 auto;
+	margin-right: 5px;
+}
+.ibic-list__item__name {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	margin-right: 5px;
+	flex: 1 1 auto;
+}
+.ibic-list__item__state {
+	width: 34px;
+	flex: 0 0 auto;
+	white-space: nowrap;
+}
+.ibic-list__item__state:before {
+	content: '';
+	display: inline-block;
+	vertical-align: top;
+	width: 7px;
+	height: 100%;
+	border-radius: 3px;
+	background: grey;
+}
+.ibic-list__item__state.is-processed:before {
+	background: lightgreen;
+}
+.ibic-list__item__state.is-error:before {
+	background: red;
+}
+.ibic-list__item__state .button {
+	min-height: 0;
+	padding: 0;
+	line-height: 1;
+	margin-left: 5px;
+}
