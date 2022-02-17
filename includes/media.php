@@ -123,7 +123,7 @@ function ibic_upload_compressed_media() {
 		wp_die();
 	}
 
-	if ( ! isset( $_POST['id'] ) || ! isset( $_POST['urls'] ) ) {
+	if ( ! isset( $_POST['id'] ) || ! isset( $_POST['urls'] ) || ! is_array( $_POST['urls'] ) ) {
 		ibic_upload_compressed_media_failed( 'Parameters are missing to update the media' );
 	}
 
@@ -134,7 +134,7 @@ function ibic_upload_compressed_media() {
 	}
 
 	if ( isset( $_POST['error'] ) ) {
-		$error = filter_var( wp_unslash( $_POST['error'] ), FILTER_SANITIZE_STRING );
+		$error = sanitize_text_field( wp_unslash( $_POST['error'] ) );
 		ibic_upload_compressed_media_failed( $error, $post_id );
 	}
 
@@ -142,9 +142,8 @@ function ibic_upload_compressed_media() {
 	$files = $_FILES;
 
 	$original_urls = ibic_get_media_urls( $post_id );
-	// URLs are checked against the ones we have in the database.
-	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-	$urls = wp_unslash( $_POST['urls'] );
+
+	$urls = array_map( 'esc_url_raw', wp_unslash( $_POST['urls'] ) );
 	foreach ( $urls  as $index => $url ) {
 		if ( ! in_array( $url, $original_urls, true ) ) {
 			continue;
@@ -154,8 +153,9 @@ function ibic_upload_compressed_media() {
 		$medium_filename    = basename( $url );
 
 		foreach ( array_keys( $files['media']['name'][ $index ] ) as $file_format ) {
-			$filepath    = $medium_dir . $medium_filename . '-ibic.' . $file_format;
-			$wp_filetype = wp_check_filetype( $medium_filename );
+			$new_file_name = sanitize_file_name( $medium_filename . '-ibic.' . $file_format );
+			$filepath      = $medium_dir . $new_file_name;
+			$wp_filetype   = wp_check_filetype( $medium_filename );
 			if ( ! $wp_filetype['ext'] && ! current_user_can( 'unfiltered_upload' ) ) {
 				continue;
 			}
