@@ -35,9 +35,15 @@ SCRIPT
 			,
 			'before'
 		);
-		wp_enqueue_script( 'ibic-admin-js', IBIC_ASSETS_PATH . 'ibic-admin.js', array( 'jquery', 'ibic-admin-config-js', 'wp-i18n' ), IBIC_VERSION, true );
 
-		wp_enqueue_style( 'ibic-admin-css', IBIC_ASSETS_PATH . 'ibic-admin.css', null, IBIC_VERSION );
+		$ibic_admin_deps = array( 'jquery', 'ibic-admin-config-js', 'wp-i18n' );
+		$screen = get_current_screen();
+		if ($screen->id === 'media_page_ibic-image-compression') {
+			wp_enqueue_style( 'ibic-admin-ui-css', IBIC_ASSETS_PATH . 'ui/ui.css', null, IBIC_VERSION );
+			wp_enqueue_script( 'ibic-admin-ui-js', IBIC_ASSETS_PATH . 'ui/ui.js', array(), IBIC_VERSION, true );
+			$ibic_admin_deps[]='ibic-admin-ui-js';
+		}
+		wp_enqueue_script( 'ibic-admin-js', IBIC_ASSETS_PATH . 'ibic-admin.js', $ibic_admin_deps, IBIC_VERSION, true );
 	}
 }
 

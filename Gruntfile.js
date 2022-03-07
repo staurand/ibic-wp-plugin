@@ -36,7 +36,7 @@ module.exports = function( grunt ) {
 		},
 
 		copy: {
-			build: {
+			vendor: {
 				files: [
 					{
 						expand: true,
@@ -46,7 +46,29 @@ module.exports = function( grunt ) {
 					},
 					{
 						expand: true,
-						src: ['**'],
+						src: ['*.js'],
+						dest: 'assets/src/ui/',
+						cwd: './assets/src/ibic-ui-list/build/static/js/',
+						rename: function () {
+							return 'assets/src/ui/ui.js'
+						}
+					},
+					{
+						expand: true,
+						src: ['*.css'],
+						dest: 'assets/src/ui/',
+						cwd: './assets/src/ibic-ui-list/build/static/css/',
+						rename: function () {
+							return 'assets/src/ui/ui.css'
+						}
+					},
+				]
+			},
+			to_dist: {
+				files: [
+					{
+						expand: true,
+						src: ['**', '!ibic-ui-list/**'],
 						dest: 'assets/dist/',
 						cwd: './assets/src/',
 					},
@@ -73,7 +95,7 @@ module.exports = function( grunt ) {
 			taskName: {
 				options: {
 					baseDir: './assets/dist/',
-					assets: ['./**/*.js', '!./sw/sw.js', '!./ibic-admin.js'],
+					assets: ['./**/*.js', '!./sw/sw.js', '!./ibic-admin.js', '!./ui/*'],
 				},
 				files: [{
 					expand: true,
@@ -84,7 +106,7 @@ module.exports = function( grunt ) {
 		},
 
 		clean: {
-			build: ['./assets/dist/']
+			build: ['./assets/dist/', './assets/src/sw/', './assets/src/ui/']
 		}
 	} );
 
@@ -118,7 +140,7 @@ module.exports = function( grunt ) {
 	grunt.registerTask( 'default', [ 'i18n','readme' ] );
 	grunt.registerTask( 'i18n', ['makepot'] );
 	grunt.registerTask( 'readme', ['wp_readme_to_markdown'] );
-	grunt.registerTask( 'build', ['clean', 'copy', 'cacheBust', 'uglify', 'increment_build_version',] );
+	grunt.registerTask( 'build', ['clean', 'copy:vendor', 'copy:to_dist', 'cacheBust', 'uglify', 'increment_build_version',] );
 
 	grunt.util.linefeed = '\n';
 

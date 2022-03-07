@@ -95,8 +95,9 @@ function ibic_ajax_get_media() {
  *
  * @param string $error The upload error.
  * @param int    $media_id The post ID.
+ * @param int    $http_code HTTP code.
  */
-function ibic_upload_compressed_media_failed( $error, $media_id = 0 ) {
+function ibic_upload_compressed_media_failed( $error, $media_id = 0, $http_code = 200 ) {
 	if ( defined( 'WP_DEBUG' ) && WP_DEBUG === true ) {
 		// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 		error_log( 'IBIC: ' . $error );
@@ -105,7 +106,7 @@ function ibic_upload_compressed_media_failed( $error, $media_id = 0 ) {
 		update_post_meta( $media_id, '_ibic_processed', '1' );
 		update_post_meta( $media_id, '_ibic_error', $error );
 	}
-	wp_send_json_error();
+	wp_send_json_error(null, $http_code);
 }
 /**
  * Upload compressed media
@@ -123,14 +124,19 @@ function ibic_upload_compressed_media() {
 		wp_die();
 	}
 
+	if (empty($_POST) && empty($_FILES) && !empty($_SERVER['CONTENT_LENGTH']) && (int) $_SERVER['CONTENT_LENGTH'] > wp_max_upload_size()) {
+		ibic_upload_compressed_media_failed( __('The uploaded file exceeds the server max upload size.', 'ibic'), 0, 413 );
+	}
+
+
 	if ( ! isset( $_POST['id'] ) || ! isset( $_POST['urls'] ) || ! is_array( $_POST['urls'] ) ) {
-		ibic_upload_compressed_media_failed( 'Parameters are missing to update the media' );
+		ibic_upload_compressed_media_failed( __('Parameters are missing to update the media', 'ibic'), 0, 400 );
 	}
 
 	$post_id    = intval( $_POST['id'] );
 	$medium_url = wp_get_attachment_url( $post_id );
 	if ( ! $medium_url ) {
-		ibic_upload_compressed_media_failed( 'Trying to update non existing media' );
+		ibic_upload_compressed_media_failed( __('Trying to update non existing media', 'ibic') );
 	}
 
 	if ( isset( $_POST['error'] ) ) {

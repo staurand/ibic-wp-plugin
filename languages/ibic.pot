@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: In Browser Image Compression 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/develop\n"
-"POT-Creation-Date: 2022-02-16 13:27:52+00:00\n"
+"POT-Creation-Date: 2022-03-06 16:30:59+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -23,6 +23,14 @@ msgstr ""
 "X-Poedit-Bookmarks: \n"
 "X-Textdomain-Support: yes\n"
 "X-Generator: grunt-wp-i18n 1.0.3\n"
+
+#: includes/admin-page.php:6 includes/admin-page.php:16
+msgid "Image compression state"
+msgstr ""
+
+#: includes/admin-page.php:7
+msgid "Image compression"
+msgstr ""
 
 #: includes/compatibility.php:43
 msgid ""
@@ -62,7 +70,19 @@ msgstr ""
 msgid "Wrong"
 msgstr ""
 
-#: includes/media.php:180
+#: includes/media.php:128
+msgid "The uploaded file exceeds the server max upload size."
+msgstr ""
+
+#: includes/media.php:133
+msgid "Parameters are missing to update the media"
+msgstr ""
+
+#: includes/media.php:139
+msgid "Trying to update non existing media"
+msgstr ""
+
+#: includes/media.php:186
 #. translators: %s: file path
 msgid "Could not write file %s"
 msgstr ""

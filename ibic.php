@@ -23,6 +23,7 @@ require_once __DIR__ . '/includes/lifecycle.php';
 require_once __DIR__ . '/includes/assets.php';
 require_once __DIR__ . '/includes/media.php';
 require_once __DIR__ . '/includes/rewrite.php';
+require_once __DIR__ . '/includes/admin-page.php';
 
 // Add action on plugin activation / deactivation.
 register_activation_hook( __FILE__, 'ibic_activation' );
@@ -44,3 +45,6 @@ add_action( 'wp_update_attachment_metadata', 'ibic_media_reset_media_state_on_ch
 // Add compatibility related hooks.
 add_action( 'admin_notices', 'ibic_compatibility_show_notice' );
 add_filter( 'debug_information', 'ibic_compatibility_debug_information', 10, 1 );
+
+// Add admin page
+add_action('admin_menu', 'ibic_admin_page_register' );

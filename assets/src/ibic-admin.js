@@ -1,9 +1,20 @@
 import { initSw } from './sw/sw-init.js';
-import { renderUI, renderErrorFactory } from './ui.js';
+//import { renderUI, renderErrorFactory } from './ui.js';
 const $ = window.jQuery;
 const config = window.IBIC_ADMIN_CONFIG;
 const i18n = window.wp.i18n;
 
+const renderErrorFactory = ({ $ }) => {
+	return (error) => {
+		const $ibicNotice = $('.ibic-notice');
+		if ($ibicNotice.length > 0) {
+			$ibicNotice.remove();
+		}
+		$('#wp-media-grid').before(
+			$('<div class="ibic-notice notice notice-error inline">').append($('<p></p>').text(error))
+		);
+	};
+}
 const renderError = renderErrorFactory({ $ });
 
 const init = function ({ sendMessage, eventHandler, update }) {
@@ -21,8 +32,42 @@ const init = function ({ sendMessage, eventHandler, update }) {
 		return ;
 	}
 
-	$('#wp-media-grid a.page-title-action[href$="media-new.php"]').each(function () {
-		const placeholder = $('<div class="ibic-placeholder"></div>');
+	if (window.renderIbicUiList) {
+		const retry = function (id) {
+			sendMessage({ command: 'remove-item', id });
+			$.post(config.image_reset_url, { id  })
+				.then(() => {
+					sendMessage({command: 'get-update'});
+				})
+				.catch(() => {
+					renderError(i18n.__('The retry failed, maybe the image does not exist anymore.', 'ibic'));
+				});
+		};
+		const retryHandler = (imageId) => {
+			return () => {
+				retry(imageId);
+			}
+		}
+		const translations = {
+			'Retry': i18n.__('Retry', 'ibic'),
+			'All images are compressed.': i18n.__('All images are compressed.', 'ibic'),
+			'Image upload failed': i18n.__('Image upload failed', 'ibic'),
+
+			'UPLOAD_MAX_SIZE_ERROR': i18n.__('The uploaded file exceeds the server max upload size.', 'ibic'),
+			'CANT_READ_IMAGE_ERROR': i18n.__('Can\'t read the image.', 'ibic'),
+		};
+		eventHandler.addEventListener('message', function (event) {
+			if (event.data.command === 'queue-updated') {
+				const imageList = event.data.queue;
+				renderIbicUiList({ imageList: event.data.queue, translations, retryHandler })
+				//ui.update({ list: event.data.queue });
+			}
+		});
+		renderIbicUiList({ imageList: [], translations, retryHandler })
+	}
+
+	/*$('#wp-media-grid a.page-title-action[href$="media-new.php"]').each(function () {
+		const placeholder = $('<div id="ibic-ui-placeholder" class="ibic-placeholder"></div>');
 		const retry = function (id) {
 			$.post(config.image_reset_url, { id  })
 				.then(() => {
@@ -43,11 +88,11 @@ const init = function ({ sendMessage, eventHandler, update }) {
 
 		eventHandler.addEventListener('message', function (event) {
 			if (event.data.command === 'queue-updated') {
-				ui.update({ list: event.data.queue });
+				//ui.update({ list: event.data.queue });
 			}
 		});
 
-		/*
+
 		list format:
 		[
 			{
@@ -59,14 +104,13 @@ const init = function ({ sendMessage, eventHandler, update }) {
 				state: "processing"
 			}
 		]
-		 */
-		/*
+
 		window.testUI = function (list) {
 			ui.update({ list })
 		};
-		 */
-	});
 
+	});
+*/
 
 	sendMessage({command: 'get-update'});
 
