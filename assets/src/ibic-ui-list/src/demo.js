@@ -1,3 +1,5 @@
+import {LOADING, READY} from "./constants";
+
 export default function demo(renderIbicUiList) {
 	const i18n = { __: string => string };
 	const translations = {
@@ -25,6 +27,7 @@ export default function demo(renderIbicUiList) {
 		})
 	}
 	renderIbicUiList({
+		state: READY,
 		imageList: setUUIDs([
 			{
 				payload: {
@@ -98,6 +101,7 @@ export default function demo(renderIbicUiList) {
 	renderIbicUiList({
 		id: 'ibic-ui-placeholder--empty',
 		imageList: [],
+		state: READY,
 		translations,
 		retryHandler
 	});
@@ -107,11 +111,15 @@ export default function demo(renderIbicUiList) {
 		renderIbicUiList({
 			id: 'ibic-ui-placeholder--dynamic',
 			imageList: imageList,
+			state: Array.isArray(imageList) ? READY : LOADING,
 			translations,
 			retryHandler
 		});
 	}
-	updateDynamicList(sourceImageList);
+	updateDynamicList(null);
+	setTimeout(function () {
+		updateDynamicList([]);
+	}, 1000);
 	const addButton = document.createElement('button');
 	addButton.appendChild(document.createTextNode('Add image'));
 	addButton.addEventListener('click', function () {

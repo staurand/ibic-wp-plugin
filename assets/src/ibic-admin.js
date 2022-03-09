@@ -61,10 +61,10 @@ const init = function ({ sendMessage, eventHandler, update }) {
 		};
 		eventHandler.addEventListener('message', function (event) {
 			if (event.data.command === 'queue-updated') {
-				renderIbicUiList({ imageList: event.data.queue, translations, retryHandler })
+				renderIbicUiList({ imageList: event.data.queue, state: 'READY', translations, retryHandler })
 			}
 		});
-		renderIbicUiList({ imageList: [], translations, retryHandler })
+		renderIbicUiList({ translations, retryHandler })
 	}
 	sendMessage({command: 'get-update'});
 

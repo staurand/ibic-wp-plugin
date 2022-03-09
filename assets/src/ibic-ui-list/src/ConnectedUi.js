@@ -3,9 +3,9 @@ import React from "react";
 import TranslationsContext from './TranslationsContext';
 
 function ConnectedUi(UIComponent) {
-	return function ({ translations, imageList, retryHandler }) {
+	return function ({ state, translations, imageList, retryHandler }) {
 		return <TranslationsContext.Provider value={ translations }>
-			<UIComponent imageList={ prepareImageList(imageList) } retryHandler={ retryHandler }  />
+			<UIComponent state={ state } imageList={ prepareImageList(imageList) } retryHandler={ retryHandler }  />
 		</TranslationsContext.Provider>;
 	}
 

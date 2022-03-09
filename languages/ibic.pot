@@ -2,9 +2,9 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: In Browser Image Compression 1.0.0\n"
+"Project-Id-Version: IBIC (In Browser Image Compression) 1.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/develop\n"
-"POT-Creation-Date: 2022-03-06 16:30:59+00:00\n"
+"POT-Creation-Date: 2022-08-24 13:41:44+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,12 +24,32 @@ msgstr ""
 "X-Textdomain-Support: yes\n"
 "X-Generator: grunt-wp-i18n 1.0.3\n"
 
-#: includes/admin-page.php:6 includes/admin-page.php:16
+#: includes/admin-page.php:6
 msgid "Image compression state"
 msgstr ""
 
-#: includes/admin-page.php:7
+#: includes/admin-page.php:7 includes/admin-page.php:16
 msgid "Image compression"
+msgstr ""
+
+#: includes/admin-page.php:19
+msgid ""
+"The compression occurs in the background in your browser, no action needed, "
+"you just need to be connected to the admin area."
+msgstr ""
+
+#: includes/admin-page.php:20
+msgid ""
+"Once the work is completed, the newly optimized files will be added to the "
+"uploads folder and they will be used automatically by your website."
+msgstr ""
+
+#: includes/admin-page.php:21
+msgid "You can check the image compression status below."
+msgstr ""
+
+#: includes/admin-page.php:23
+msgid "Status"
 msgstr ""
 
 #: includes/compatibility.php:43
@@ -88,7 +108,7 @@ msgid "Could not write file %s"
 msgstr ""
 
 #. Plugin Name of the plugin/theme
-msgid "In Browser Image Compression"
+msgid "IBIC (In Browser Image Compression)"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
