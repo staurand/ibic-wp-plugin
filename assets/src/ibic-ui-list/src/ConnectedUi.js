@@ -2,9 +2,8 @@ import defaultThumbnail from './default-thumbnail.png';
 import React from "react";
 import TranslationsContext from './TranslationsContext';
 
-function ConnectedUi(UIComponent, { translations, imageList, retryHandler }) {
-
-	return function () {
+function ConnectedUi(UIComponent) {
+	return function ({ translations, imageList, retryHandler }) {
 		return <TranslationsContext.Provider value={ translations }>
 			<UIComponent imageList={ prepareImageList(imageList) } retryHandler={ retryHandler }  />
 		</TranslationsContext.Provider>;

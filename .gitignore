@@ -10,5 +10,6 @@ vendor/
 *.zip
 assets/dist/
 assets/src/sw
+assets/src/ui
 .idea
 /.phpunit.result.cache
