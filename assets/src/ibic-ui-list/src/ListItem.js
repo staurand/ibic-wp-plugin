@@ -14,10 +14,10 @@ function ListItem({ error, errors, state, id, name, thumbnail, retryHandler }) {
 		{ hasError ? <span className="ibic-list__item__error">{
 			errors ? errors.map((error, index) => <Translate key={ index } string={ error } />) : error
 		}</span> : null }
-		<button className="button" onClick={ retryHandler(id) }>
+		{ hasError ? <button className="button" onClick={ retryHandler(id) }>
 			<span className="dashicons-before dashicons-controls-repeat"></span>
 			<span className="screen-reader-text"><Translate string="Retry" /></span>
-		</button>
+		</button> : null}
 	</li>
 }
 export default ListItem;
