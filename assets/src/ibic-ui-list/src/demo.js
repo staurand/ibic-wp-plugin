@@ -1,11 +1,15 @@
 export default function demo(renderIbicUiList) {
+	const i18n = { __: string => string };
 	const translations = {
-		'Retry': 'Retry',
-		'All images are compressed.': 'All images are compressed.',
-		'Image upload failed': 'Image upload failed',
+		'Retry': i18n.__('Retry', 'ibic'),
+		'All images are compressed.': i18n.__('All images are compressed.', 'ibic'),
+		'Image upload failed': i18n.__('Image upload failed', 'ibic'),
 
-		'UPLOAD_MAX_SIZE_ERROR': 'The uploaded file exceeds the server max upload size.',
-		'CANT_READ_IMAGE_ERROR': 'Can\'t read the image.',
+		'UPLOAD_MAX_SIZE_ERROR': i18n.__('The uploaded file exceeds the server max upload size.', 'ibic'),
+		'CANT_READ_IMAGE_ERROR': i18n.__('Can\'t read the image.', 'ibic'),
+		'CANT_DECODE_IMAGE_TOO_BIG_ERROR':  i18n.__('The image is too big and can\'t be compressed.', 'ibic'),
+		'UNSUPPORTED_IMAGE_TYPE': i18n.__('Unsupported image type.', 'ibic'),
+		'CANT_OPTIMISE_IMAGE_ERROR': i18n.__('An error has occurred during the image compression.', 'ibic'),
 	};
 	const retryHandler = (imageId) => {
 		return () => {
