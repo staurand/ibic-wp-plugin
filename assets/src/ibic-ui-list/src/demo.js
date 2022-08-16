@@ -16,8 +16,16 @@ export default function demo(renderIbicUiList) {
 			console.log(imageId)
 		}
 	};
+	const setUUIDs = (imageList) => {
+		return imageList.map((item, index) => {
+			return {
+				...item,
+				id: 'fake-uuid-' + index
+			}
+		})
+	}
 	renderIbicUiList({
-		imageList: [
+		imageList: setUUIDs([
 			{
 				payload: {
 					id: 47,
@@ -82,7 +90,7 @@ export default function demo(renderIbicUiList) {
 				},
 				state: "processed"
 			}
-		],
+		]),
 		translations,
 		retryHandler
 	});
@@ -113,7 +121,8 @@ export default function demo(renderIbicUiList) {
 				name: 'test item ' + sourceImageList.length,
 				urls: [process.env.PUBLIC_URL + "/static/eugene-chystiakov-TCQmflzrZRQ-unsplash.jpg", process.env.PUBLIC_URL + "/static/eugene-chystiakov-TCQmflzrZRQ-unsplash-768x1152.jpg", process.env.PUBLIC_URL + "/static/eugene-chystiakov-TCQmflzrZRQ-unsplash-150x150.jpg"],
 			},
-			state: sourceImageList.length % 2 === 0 ? "processing" : "processed"
+			state: sourceImageList.length % 2 === 0 ? "processing" : "processed",
+			id: 'fake-uuid-' + sourceImageList.length
 		})
 		updateDynamicList(sourceImageList)
 	})

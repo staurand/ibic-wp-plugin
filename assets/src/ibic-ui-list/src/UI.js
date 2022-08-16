@@ -8,7 +8,7 @@ function UI({ imageList, retryHandler }) {
 				imageList.map((imageItem, index) => {
 					const { id, error, errors, name, thumbnail } = imageItem.payload;
 					return <ListItem
-						key={ index }
+						key={ imageItem.id }
 						state={ imageItem.state }
 						id={ id }
 						name={ name }

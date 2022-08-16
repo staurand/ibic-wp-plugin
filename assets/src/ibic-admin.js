@@ -61,7 +61,6 @@ const init = function ({ sendMessage, eventHandler, update }) {
 		};
 		eventHandler.addEventListener('message', function (event) {
 			if (event.data.command === 'queue-updated') {
-				console.log(event.data.queue)
 				renderIbicUiList({ imageList: event.data.queue, translations, retryHandler })
 			}
 		});
