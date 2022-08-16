@@ -2,7 +2,7 @@
 Contributors: staurand
 Tags: image optimization, webp
 Requires at least: 5.2
-Tested up to: 5.9
+Tested up to: 6.0
 Requires PHP: 5.6
 Stable tag: 1.1.0
 License: GPLv2 or later
@@ -48,7 +48,11 @@ jpg and png are supported and will be optimized.
 
 == Changelog ==
 
-= 1.0 =
+= 1.1.0 =
+* Improve error management
+* New interface to check image compression status (Medias > Image compression)
+
+= 1.0.0 =
 * First release
 
 == Troubleshooting ==
