@@ -260,3 +260,19 @@ function ibic_ajax_reset_media() {
 
 	wp_send_json_success();
 }
+
+
+function ibic_ajax_media_completion_status() {
+	$to_be_processed = ibic_get_media_to_process();
+	$count = count($to_be_processed);
+	if ($count > 0) {
+		echo esc_html(
+			sprintf(
+				/* Translators: %1$d number of images */
+				_n('%1$d image to be processed', '%d images to be processed', $count, 'ibic'),
+				$count
+			)
+		);
+	}
+	wp_die();
+}

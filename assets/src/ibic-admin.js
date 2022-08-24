@@ -60,9 +60,14 @@ const init = function ({ sendMessage, eventHandler, update }) {
 			'UNSUPPORTED_IMAGE_TYPE': i18n.__('Unsupported image type.', 'ibic'),
 			'CANT_OPTIMISE_IMAGE_ERROR': i18n.__('An error has occurred during the image compression.', 'ibic'),
 		};
+		const updateCompletionStatus = function () {
+			$('#ibic-completion-placeholder').load(ajaxurl + '?action=ibic_get_media_completion_status');
+		};
 		eventHandler.addEventListener('message', function (event) {
 			if (event.data.command === 'queue-updated') {
-				renderIbicUiList({ imageList: event.data.queue, state: 'READY', translations, retryHandler })
+				renderIbicUiList({ imageList: event.data.queue, state: 'READY', translations, retryHandler });
+				// Update the completion status
+				updateCompletionStatus();
 			}
 		});
 		renderIbicUiList({ translations, retryHandler })

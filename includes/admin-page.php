@@ -21,6 +21,7 @@ function ibic_admin_page_render() {
 		<p><?php esc_html_e('You can check the image compression status below.', 'ibic'); ?> </p>
 
 		<h2 class="wp-heading-inline"><?php esc_html_e('Status', 'ibic'); ?></h2>
+		<div id="ibic-completion-placeholder" class="completion-placeholder"></div>
 		<div id="ibic-ui-placeholder" class="ibic-placeholder"></div>
 	</div><?php
 }

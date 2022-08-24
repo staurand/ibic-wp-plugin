@@ -38,6 +38,7 @@ add_filter( 'script_loader_tag', 'ibic_admin_script_as_module', 10, 3 );
 add_action( 'wp_ajax_ibic_get_media', 'ibic_ajax_get_media' );
 add_action( 'wp_ajax_ibic_upload_compressed_media', 'ibic_upload_compressed_media' );
 add_action( 'wp_ajax_ibic_reset_media', 'ibic_ajax_reset_media' );
+add_action( 'wp_ajax_ibic_get_media_completion_status', 'ibic_ajax_media_completion_status' );
 // # WP Hooks.
 add_action( 'delete_attachment', 'ibic_media_on_delete_attachment', 10, 1 );
 add_action( 'wp_update_attachment_metadata', 'ibic_media_reset_media_state_on_change', 10, 2 );
