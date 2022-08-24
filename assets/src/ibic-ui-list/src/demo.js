@@ -6,6 +6,7 @@ export default function demo(renderIbicUiList) {
 		'Retry': i18n.__('Retry', 'ibic'),
 		'All images are compressed.': i18n.__('All images are compressed.', 'ibic'),
 		'Image upload failed': i18n.__('Image upload failed', 'ibic'),
+		'Loading...': i18n.__('Loading...', 'ibic'),
 
 		'UPLOAD_MAX_SIZE_ERROR': i18n.__('The uploaded file exceeds the server max upload size.', 'ibic'),
 		'CANT_READ_IMAGE_ERROR': i18n.__('Can\'t read the image.', 'ibic'),
