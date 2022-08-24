@@ -85,7 +85,16 @@ export default function demo(renderIbicUiList) {
 				},
 				state: "processed",
 			},
-
+			{
+				payload: {
+					id: 47,
+					name: 'test item 47 with duplicated errors',
+					urls: [process.env.PUBLIC_URL + "/static/eugene-chystiakov-TCQmflzrZRQ-unsplash.jpg", process.env.PUBLIC_URL + "/static/eugene-chystiakov-TCQmflzrZRQ-unsplash-768x1152.jpg", process.env.PUBLIC_URL + "/static/eugene-chystiakov-TCQmflzrZRQ-unsplash-150x150.jpg"],
+					error: 'test error',
+					errors: ['UPLOAD_MAX_SIZE_ERROR', 'UPLOAD_MAX_SIZE_ERROR', 'CANT_READ_IMAGE_ERROR']
+				},
+				state: "processed",
+			},
 			{
 				payload: {
 					id: 33,

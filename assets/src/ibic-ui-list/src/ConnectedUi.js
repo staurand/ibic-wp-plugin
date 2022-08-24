@@ -18,6 +18,9 @@ export const prepareImageList = (imageList) => {
 			const smallestImageInSet = findSmallestImage(imageItem.payload.urls);
 			imageItem.payload.thumbnail = smallestImageInSet ? smallestImageInSet : defaultThumbnail;
 		}
+		if (Array.isArray(imageItem.payload.errors)) {
+			imageItem.payload.errors = [ ...new Set(imageItem.payload.errors) ]; // ...new Set(imageItem.errors) => make array items unique
+		}
 		return imageItem;
 	});
 }

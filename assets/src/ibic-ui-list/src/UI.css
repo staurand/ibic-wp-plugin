@@ -17,7 +17,7 @@
 	display: flex;
 	align-items: center;
 	padding: 7px 10px;
-	height: 20px;
+	min-height: 20px;
 	margin-bottom: 5px;
 }
 .ibic-list__item:last-child {
