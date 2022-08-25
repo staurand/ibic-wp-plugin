@@ -6,7 +6,7 @@
  * Author:          Stéphane Taurand
  * Text Domain:     ibic
  * Domain Path:     /languages
- * Version:         1.1.0
+ * Version:         1.1.1
  * License:         GPLv2 or later
  * License URI:     https://www.gnu.org/licenses/gpl-2.0.html
  *
@@ -14,7 +14,7 @@
  */
 
 $ibic_build_number = require __DIR__ . '/build-number.php';
-define( 'IBIC_VERSION', '1.0.0~' . $ibic_build_number );
+define( 'IBIC_VERSION', '1.1.1~' . $ibic_build_number );
 define( 'IBIC_ASSETS_PATH', plugin_dir_url( __FILE__ ) . 'assets/dist/' );
 
 require_once __DIR__ . '/includes/helper.php';
