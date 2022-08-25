@@ -1,5 +1,4 @@
 import { initSw } from './sw/sw-init.js';
-//import { renderUI, renderErrorFactory } from './ui.js';
 const $ = window.jQuery;
 const config = window.IBIC_ADMIN_CONFIG;
 const i18n = window.wp.i18n;
