@@ -46,6 +46,10 @@ On your public website, webp image could be served for browsers that support thi
 
 jpg and png are supported and will be optimized.
 
+== Screenshots ==
+
+1. The media compression status page
+
 == Changelog ==
 
 = 1.1.0 =
