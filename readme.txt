@@ -2,7 +2,7 @@
 Contributors: staurand
 Tags: image optimization, webp
 Requires at least: 5.2
-Tested up to: 6.1.1
+Tested up to: 6.3.1
 Requires PHP: 5.6
 Stable tag: 1.1.1
 License: GPLv2 or later
