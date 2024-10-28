@@ -16,9 +16,9 @@ function ibic_enqueue_admin_script() {
 	if ( ibic_current_user_can_compress_media() ) {
 		$ibic_admin_config = wp_json_encode(
 			array(
-				'assets_path'     => IBIC_ASSETS_PATH,
+				'assets_path'     => IBIC_ASSETS_URL,
 				'sw_config'       => array(
-					'codecs_path'      => IBIC_ASSETS_PATH . 'sw/codecs/',
+					'codecs_path'      => IBIC_ASSETS_URL . 'sw/codecs/',
 					'image_list_url'   => add_query_arg( '_wpnonce', wp_create_nonce( 'ibic_get_media' ), admin_url( 'admin-ajax.php?action=ibic_get_media' ) ),
 					'image_upload_url' => add_query_arg( '_wpnonce', wp_create_nonce( 'ibic_upload_compressed_media' ), admin_url( 'admin-ajax.php?action=ibic_upload_compressed_media' ) ),
 				),
@@ -39,11 +39,12 @@ SCRIPT
 		$ibic_admin_deps = array( 'jquery', 'ibic-admin-config-js', 'wp-i18n' );
 		$screen = get_current_screen();
 		if ($screen->id === 'media_page_ibic-image-compression') {
-			wp_enqueue_style( 'ibic-admin-ui-css', IBIC_ASSETS_PATH . 'ui/ui.css', null, IBIC_VERSION );
-			wp_enqueue_script( 'ibic-admin-ui-js', IBIC_ASSETS_PATH . 'ui/ui.js', array(), IBIC_VERSION, true );
+			$assets = include IBIC_ASSETS_PATH . 'ui/index.asset.php';
+			wp_enqueue_style( 'ibic-admin-ui-css', IBIC_ASSETS_URL . 'ui/index.css', null, IBIC_VERSION );
+			wp_enqueue_script( 'ibic-admin-ui-js', IBIC_ASSETS_URL . 'ui/index.js', $assets['dependencies'], IBIC_VERSION, true );
 			$ibic_admin_deps[]='ibic-admin-ui-js';
 		}
-		wp_enqueue_script( 'ibic-admin-js', IBIC_ASSETS_PATH . 'ibic-admin.js', $ibic_admin_deps, IBIC_VERSION, true );
+		wp_enqueue_script( 'ibic-admin-js', IBIC_ASSETS_URL . 'ibic-admin.js', $ibic_admin_deps, IBIC_VERSION, true );
 	}
 }
 

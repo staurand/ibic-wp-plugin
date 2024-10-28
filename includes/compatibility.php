@@ -52,7 +52,7 @@ function ibic_compatibility_show_notice() {
  * @return array
  */
 function ibic_compatibility_wasm_mime_type_check() {
-	$response     = wp_remote_get( IBIC_ASSETS_PATH . 'sw/codecs/mozjpeg/mozjpeg_enc.wasm', array( 'sslverify' => false ) );
+	$response     = wp_remote_get( IBIC_ASSETS_URL . 'sw/codecs/mozjpeg/mozjpeg_enc.wasm', array( 'sslverify' => false ) );
 	$success      = false;
 	$content_type = null;
 	if ( ! is_wp_error( $response ) ) {

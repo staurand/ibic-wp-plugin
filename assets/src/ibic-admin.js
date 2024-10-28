@@ -54,8 +54,8 @@ const init = function ({ sendMessage, eventHandler, update }) {
 			'Loading...': i18n.__('Loading...', 'ibic'),
 
 			'UPLOAD_MAX_SIZE_ERROR': i18n.__('The uploaded file exceeds the server max upload size.', 'ibic'),
-			'CANT_READ_IMAGE_ERROR': i18n.__('Can\'t read the image.', 'ibic'),
-			'CANT_DECODE_IMAGE_TOO_BIG_ERROR':  i18n.__('The image is too big and can\'t be compressed.', 'ibic'),
+			'CANT_READ_IMAGE_ERROR': i18n.__('Can’t read the image.', 'ibic'),
+			'CANT_DECODE_IMAGE_TOO_BIG_ERROR':  i18n.__('The image is too big and can’t be compressed.', 'ibic'),
 			'UNSUPPORTED_IMAGE_TYPE': i18n.__('Unsupported image type.', 'ibic'),
 			'CANT_OPTIMISE_IMAGE_ERROR': i18n.__('An error has occurred during the image compression.', 'ibic'),
 		};

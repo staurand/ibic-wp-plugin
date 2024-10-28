@@ -6,16 +6,23 @@
  * Author:          Stéphane Taurand
  * Text Domain:     ibic
  * Domain Path:     /languages
- * Version:         1.1.1
+ * Version:         1.1.2
  * License:         GPLv2 or later
  * License URI:     https://www.gnu.org/licenses/gpl-2.0.html
  *
  * @package         Ibic
  */
 
+/**
+ * @TODO: allow to skip error
+ * @TODO: keep item with error in the same order (timestamp?)
+ * @TODO: check unknown state + icon not working
+ */
+
 $ibic_build_number = require __DIR__ . '/build-number.php';
-define( 'IBIC_VERSION', '1.1.1~' . $ibic_build_number );
-define( 'IBIC_ASSETS_PATH', plugin_dir_url( __FILE__ ) . 'assets/dist/' );
+define( 'IBIC_VERSION', '1.1.2~' . $ibic_build_number );
+define( 'IBIC_ASSETS_PATH', __DIR__ . '/assets/dist/' );
+define( 'IBIC_ASSETS_URL', plugin_dir_url( __FILE__ ) . 'assets/dist/' );
 
 require_once __DIR__ . '/includes/helper.php';
 require_once __DIR__ . '/includes/compatibility.php';

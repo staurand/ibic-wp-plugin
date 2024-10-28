@@ -157,7 +157,10 @@ function ibic_upload_compressed_media() {
 		$original_file_path = ibic_media_url_to_path( $url );
 		$medium_dir         = trailingslashit( dirname( $original_file_path ) );
 		$medium_filename    = basename( $url );
-
+		// @TODO: check normal to have missing index here?
+		if (!isset($files['media']['name'][ $index ])) {
+			continue;
+		}
 		foreach ( array_keys( $files['media']['name'][ $index ] ) as $file_format ) {
 			$new_file_name = sanitize_file_name( $medium_filename . '-ibic.' . $file_format );
 			$filepath      = $medium_dir . $new_file_name;
