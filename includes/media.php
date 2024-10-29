@@ -12,31 +12,37 @@ if ( ! defined( 'ABSPATH' ) ) {
 require_once __DIR__ . '/helper.php';
 
 /**
+ * Get media to process as WP_Query.
+ *
+ * @return WP_Query
+ */
+function ibic_get_media_to_process_as_wp_query() {
+	return new WP_Query(array(
+		'post_type'      => 'attachment',
+		'post_status'   => 'inherit',
+		'post_mime_type' => array( 'image/jpeg', 'image/png' ),
+		'author'         => get_current_user_id(),
+		'posts_per_page' => 10,
+		'meta_query'     => array(
+			'relation' => 'OR',
+			array(
+				'key'   => '_ibic_processed',
+				'value' => '0',
+			),
+			array(
+				'key'     => '_ibic_processed',
+				'compare' => 'NOT EXISTS',
+			),
+		),
+	));
+}
+/**
  * Return a list of media to process filtered by type (jpg/png) and only for the current logged-in user (for security reason we don't want to process media uploaded by other users)
  *
  * @return array[]
  */
 function ibic_get_media_to_process() {
-	$media = get_posts(
-		array(
-			'post_type'      => 'attachment',
-			'post_mime_type' => array( 'image/jpeg', 'image/png' ),
-			'author'         => get_current_user_id(),
-			'posts_per_page' => 10,
-			'meta_query'     => array(
-				'relation' => 'OR',
-				array(
-					'key'   => '_ibic_processed',
-					'value' => '0',
-				),
-				array(
-					'key'     => '_ibic_processed',
-					'compare' => 'NOT EXISTS',
-				),
-			),
-		)
-	);
-
+	$media = ibic_get_media_to_process_as_wp_query();
 	return array_map(
 		function ( $medium ) {
 			return array(
@@ -45,7 +51,7 @@ function ibic_get_media_to_process() {
 				'urls' => ibic_get_media_urls( $medium->ID ),
 			);
 		},
-		$media
+		$media->posts
 	);
 }
 
@@ -265,13 +271,13 @@ function ibic_ajax_reset_media() {
 
 
 function ibic_ajax_media_completion_status() {
-	$to_be_processed = ibic_get_media_to_process();
-	$count = count($to_be_processed);
+	$to_be_processed = ibic_get_media_to_process_as_wp_query();
+	$count = $to_be_processed->found_posts;
 	if ($count > 0) {
 		echo esc_html(
 			sprintf(
 				/* Translators: %1$d number of images */
-				_n('%1$d image to be processed', '%d images to be processed', $count, 'ibic'),
+				_n('%1$d image to be processed', '%1$d images to be processed', $count, 'ibic'),
 				$count
 			)
 		);
