@@ -124,15 +124,6 @@ function ibic_upload_compressed_media() {
 		wp_die();
 	}
 
-	if (empty($_POST) && empty($_FILES) && !empty($_SERVER['CONTENT_LENGTH']) && (int) $_SERVER['CONTENT_LENGTH'] > wp_max_upload_size()) {
-		ibic_upload_compressed_media_failed( __('The uploaded file exceeds the server max upload size.', 'ibic'), 0, 413 );
-	}
-
-
-	if ( ! isset( $_POST['id'] ) || ! isset( $_POST['urls'] ) || ! is_array( $_POST['urls'] ) ) {
-		ibic_upload_compressed_media_failed( __('Parameters are missing to update the media', 'ibic'), 0, 400 );
-	}
-
 	$post_id    = intval( $_POST['id'] );
 	$medium_url = wp_get_attachment_url( $post_id );
 	if ( ! $medium_url ) {
@@ -142,6 +133,15 @@ function ibic_upload_compressed_media() {
 	if ( isset( $_POST['error'] ) ) {
 		$error = sanitize_text_field( wp_unslash( $_POST['error'] ) );
 		ibic_upload_compressed_media_failed( $error, $post_id );
+	}
+
+	if (empty($_POST) && empty($_FILES) && !empty($_SERVER['CONTENT_LENGTH']) && (int) $_SERVER['CONTENT_LENGTH'] > wp_max_upload_size()) {
+		ibic_upload_compressed_media_failed( __('The uploaded file exceeds the server max upload size.', 'ibic'), 0, 413 );
+	}
+
+
+	if ( ! isset( $_POST['id'] ) || ! isset( $_POST['urls'] ) || ! is_array( $_POST['urls'] ) ) {
+		ibic_upload_compressed_media_failed( __('Parameters are missing to update the media', 'ibic'), 0, 400 );
 	}
 
 	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
@@ -187,7 +187,7 @@ function ibic_upload_compressed_media() {
 			}
 		}
 	}
-	error_log(json_encode($_POST['partial']));
+
 	if (!isset($_POST['partial']) || $_POST['partial'] === '1') {
 		update_post_meta( $post_id, '_ibic_processed', '1' );
 	}
