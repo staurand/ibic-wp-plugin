@@ -66,6 +66,7 @@ const getErrorText = function (errorMessage) {
 		'CANT_DECODE_IMAGE_TOO_BIG_ERROR': __('The image is too big and can’t be compressed.', 'ibic'),
 		'UNSUPPORTED_IMAGE_TYPE': __('Unsupported image type.', 'ibic'),
 		'CANT_OPTIMISE_IMAGE_ERROR': __('An error has occurred during the image compression.', 'ibic'),
+		'IMAGE_UPLOAD_FAILED_ERROR': __('An error has occurred during the image upload.', 'ibic'),
 	};
 	if (knownErrorMessages[errorMessage]) {
 		return knownErrorMessages[errorMessage];
