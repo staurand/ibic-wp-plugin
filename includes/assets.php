@@ -14,8 +14,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function ibic_enqueue_admin_script() {
 	if ( ibic_current_user_can_compress_media() ) {
-		$php_ini_max_file_uploads = (int) ini_get('max_file_uploads');
-		if ($php_ini_max_file_uploads <= 0) {
+		$php_ini_max_file_uploads = (int) ini_get( 'max_file_uploads' );
+		if ( $php_ini_max_file_uploads <= 0 ) {
 			$php_ini_max_file_uploads = 20; // Set it to PHP default.
 		}
 		$ibic_admin_config = wp_json_encode(
@@ -26,7 +26,7 @@ function ibic_enqueue_admin_script() {
 					'image_list_url'   => add_query_arg( '_wpnonce', wp_create_nonce( 'ibic_get_media' ), admin_url( 'admin-ajax.php?action=ibic_get_media' ) ),
 					'image_upload_url' => add_query_arg( '_wpnonce', wp_create_nonce( 'ibic_upload_compressed_media' ), admin_url( 'admin-ajax.php?action=ibic_upload_compressed_media' ) ),
 					// Limit max_file_uploads to 4 or less based on $php_ini_max_file_uploads.
-					'max_file_uploads' => apply_filters('ibic/sw_config/max_file_uploads', min(4, $php_ini_max_file_uploads))
+					'max_file_uploads' => apply_filters( 'ibic_sw_config_max_file_uploads', min( 4, $php_ini_max_file_uploads ) ),
 				),
 				'image_reset_url' => add_query_arg( '_wpnonce', wp_create_nonce( 'ibic_reset_media' ), admin_url( 'admin-ajax.php?action=ibic_reset_media' ) ),
 			)
@@ -43,12 +43,12 @@ SCRIPT
 		);
 
 		$ibic_admin_deps = array( 'jquery', 'ibic-admin-config-js', 'wp-i18n' );
-		$screen = get_current_screen();
-		if ($screen->id === 'media_page_ibic-image-compression') {
+		$screen          = get_current_screen();
+		if ( 'media_page_ibic-image-compression' === $screen->id ) {
 			$assets = include IBIC_ASSETS_PATH . 'ui/index.asset.php';
 			wp_enqueue_style( 'ibic-admin-ui-css', IBIC_ASSETS_URL . 'ui/index.css', null, IBIC_VERSION );
 			wp_enqueue_script( 'ibic-admin-ui-js', IBIC_ASSETS_URL . 'ui/index.js', $assets['dependencies'], IBIC_VERSION, true );
-			$ibic_admin_deps[]='ibic-admin-ui-js';
+			$ibic_admin_deps[] = 'ibic-admin-ui-js';
 		}
 		wp_enqueue_script( 'ibic-admin-js', IBIC_ASSETS_URL . 'ibic-admin.js', $ibic_admin_deps, IBIC_VERSION, true );
 	}

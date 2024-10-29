@@ -66,15 +66,21 @@ function ibic_compatibility_wasm_mime_type_check() {
 	);
 }
 
+/**
+ * Check if we can retrieve information about "max_file_uploads" config.
+ * If we can check if the value is greater or equal to 2 (for each media we have at least two files to send jpg/png and webp).
+ *
+ * @return array
+ */
 function ibic_compatibility_max_file_uploads_check() {
-	$max_file_uploads = ini_get('max_file_uploads');
-	if (is_numeric($max_file_uploads)) {
+	$max_file_uploads = ini_get( 'max_file_uploads' );
+	if ( is_numeric( $max_file_uploads ) ) {
 		$max_file_uploads_int = (int) $max_file_uploads;
 	} else {
 		$max_file_uploads_int = 0;
 	}
 	return array(
-		'success'      => $max_file_uploads_int >= 2,
+		'success'          => $max_file_uploads_int >= 2,
 		'max_file_uploads' => $max_file_uploads,
 	);
 }
@@ -88,20 +94,20 @@ function ibic_compatibility_max_file_uploads_check() {
  * @return mixed
  */
 function ibic_compatibility_debug_information( $info ) {
-	$wasm_mime_type_check = ibic_compatibility_wasm_mime_type_check();
+	$wasm_mime_type_check   = ibic_compatibility_wasm_mime_type_check();
 	$max_file_uploads_check = ibic_compatibility_max_file_uploads_check();
-	$info['ibic']         = array(
+	$info['ibic']           = array(
 		'label'  => __( 'IBIC plugin', 'ibic' ),
 		'fields' => array(
-			'ibic-mod-rewrite'    => array(
+			'ibic-mod-rewrite'      => array(
 				'label' => __( 'The server supports URL rewriting', 'ibic' ),
 				'value' => got_url_rewrite() ? __( 'Yes', 'ibic' ) : __( 'No', 'ibic' ),
 			),
-			'ibic-ssl'            => array(
+			'ibic-ssl'              => array(
 				'label' => __( 'The site is secured (https enabled)', 'ibic' ),
 				'value' => is_ssl() ? __( 'Yes', 'ibic' ) : __( 'No', 'ibic' ),
 			),
-			'ibic-wasm-mime-type' => array(
+			'ibic-wasm-mime-type'   => array(
 				'label' => __( 'Wasm file mime type', 'ibic' ),
 				'value' => $wasm_mime_type_check['success'] ? __( 'Correct', 'ibic' ) : __( 'Wrong', 'ibic' ),
 				'debug' => $wasm_mime_type_check['content_type'],
@@ -110,7 +116,7 @@ function ibic_compatibility_debug_information( $info ) {
 				'label' => __( '"max_file_uploads" PHP config', 'ibic' ),
 				'value' => $max_file_uploads_check['success'] ? __( 'Correct', 'ibic' ) : __( 'Wrong', 'ibic' ),
 				'debug' => $max_file_uploads_check['max_file_uploads'],
-			)
+			),
 		),
 	);
 	return $info;

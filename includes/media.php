@@ -17,24 +17,28 @@ require_once __DIR__ . '/helper.php';
  * @return WP_Query
  */
 function ibic_get_media_to_process_as_wp_query() {
-	return new WP_Query(array(
-		'post_type'      => 'attachment',
-		'post_status'   => 'inherit',
-		'post_mime_type' => array( 'image/jpeg', 'image/png' ),
-		'author'         => get_current_user_id(),
-		'posts_per_page' => 10,
-		'meta_query'     => array(
-			'relation' => 'OR',
-			array(
-				'key'   => '_ibic_processed',
-				'value' => '0',
+	return new WP_Query(
+		array(
+			'post_type'      => 'attachment',
+			'post_status'    => 'inherit',
+			'post_mime_type' => array( 'image/jpeg', 'image/png' ),
+			'author'         => get_current_user_id(),
+			'posts_per_page' => 10,
+			// @TODO: create new table in DB and save media processed? (maybe a good way to store compression rate...).
+			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+			'meta_query'     => array(
+				'relation' => 'OR',
+				array(
+					'key'   => '_ibic_processed',
+					'value' => '0',
+				),
+				array(
+					'key'     => '_ibic_processed',
+					'compare' => 'NOT EXISTS',
+				),
 			),
-			array(
-				'key'     => '_ibic_processed',
-				'compare' => 'NOT EXISTS',
-			),
-		),
-	));
+		)
+	);
 }
 /**
  * Return a list of media to process filtered by type (jpg/png) and only for the current logged-in user (for security reason we don't want to process media uploaded by other users)
@@ -112,7 +116,7 @@ function ibic_upload_compressed_media_failed( $error, $media_id = 0, $http_code 
 		update_post_meta( $media_id, '_ibic_processed', '1' );
 		update_post_meta( $media_id, '_ibic_error', $error );
 	}
-	wp_send_json_error(null, $http_code);
+	wp_send_json_error( null, $http_code );
 }
 /**
  * Upload compressed media
@@ -130,10 +134,10 @@ function ibic_upload_compressed_media() {
 		wp_die();
 	}
 
-	$post_id    = intval( $_POST['id'] );
+	$post_id    = isset( $_POST['id'] ) ? intval( $_POST['id'] ) : 0;
 	$medium_url = wp_get_attachment_url( $post_id );
 	if ( ! $medium_url ) {
-		ibic_upload_compressed_media_failed( __('Trying to update non existing media', 'ibic') );
+		ibic_upload_compressed_media_failed( __( 'Trying to update non existing media', 'ibic' ) );
 	}
 
 	if ( isset( $_POST['error'] ) ) {
@@ -141,13 +145,12 @@ function ibic_upload_compressed_media() {
 		ibic_upload_compressed_media_failed( $error, $post_id );
 	}
 
-	if (empty($_POST) && empty($_FILES) && !empty($_SERVER['CONTENT_LENGTH']) && (int) $_SERVER['CONTENT_LENGTH'] > wp_max_upload_size()) {
-		ibic_upload_compressed_media_failed( __('The uploaded file exceeds the server max upload size.', 'ibic'), 0, 413 );
+	if ( empty( $_POST ) && empty( $_FILES ) && ! empty( $_SERVER['CONTENT_LENGTH'] ) && (int) $_SERVER['CONTENT_LENGTH'] > wp_max_upload_size() ) {
+		ibic_upload_compressed_media_failed( __( 'The uploaded file exceeds the server max upload size.', 'ibic' ), 0, 413 );
 	}
 
-
 	if ( ! isset( $_POST['id'] ) || ! isset( $_POST['urls'] ) || ! is_array( $_POST['urls'] ) ) {
-		ibic_upload_compressed_media_failed( __('Parameters are missing to update the media', 'ibic'), 0, 400 );
+		ibic_upload_compressed_media_failed( __( 'Parameters are missing to update the media', 'ibic' ), 0, 400 );
 	}
 
 	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
@@ -183,7 +186,7 @@ function ibic_upload_compressed_media() {
 			$bits = file_get_contents( $tmp_file_path );
 
 			if ( is_file( $filepath ) ) {
-				unlink( $filepath );
+				wp_delete_file( $filepath );
 			}
 
 			$upload_result = wp_upload_bits( basename( $filepath ), null, $bits, get_the_date( 'Y/m', $post_id ) );
@@ -194,7 +197,8 @@ function ibic_upload_compressed_media() {
 		}
 	}
 
-	if (!isset($_POST['partial']) || $_POST['partial'] === '1') {
+	// If there is no partial param, assume the service worker is not up-to-date and it's a request will all optimised medias.
+	if ( ! isset( $_POST['partial'] ) || '1' === $_POST['partial'] ) {
 		update_post_meta( $post_id, '_ibic_processed', '1' );
 	}
 	delete_post_meta( $post_id, '_ibic_error' );
@@ -269,15 +273,19 @@ function ibic_ajax_reset_media() {
 	wp_send_json_success();
 }
 
-
+/**
+ * Ajax function to return the current media completion status.
+ *
+ * @return void
+ */
 function ibic_ajax_media_completion_status() {
 	$to_be_processed = ibic_get_media_to_process_as_wp_query();
-	$count = $to_be_processed->found_posts;
-	if ($count > 0) {
+	$count           = $to_be_processed->found_posts;
+	if ( $count > 0 ) {
 		echo esc_html(
 			sprintf(
 				/* Translators: %1$d number of images */
-				_n('%1$d image to be processed', '%1$d images to be processed', $count, 'ibic'),
+				_n( '%1$d image to be processed', '%1$d images to be processed', $count, 'ibic' ),
 				$count
 			)
 		);

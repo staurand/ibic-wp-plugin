@@ -24,4 +24,3 @@ function ibic_uninstall_clean_up() {
 }
 
 ibic_uninstall_clean_up();
-
