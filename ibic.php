@@ -13,12 +13,6 @@
  * @package         Ibic
  */
 
-/**
- * @TODO: allow to skip error
- * @TODO: keep item with error in the same order (timestamp?)
- * @TODO: check unknown state + icon not working
- */
-
 $ibic_build_number = require __DIR__ . '/build-number.php';
 define( 'IBIC_VERSION', '2.0.0~' . $ibic_build_number );
 define( 'IBIC_ASSETS_PATH', __DIR__ . '/assets/dist/' );
