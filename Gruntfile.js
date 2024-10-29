@@ -44,24 +44,7 @@ module.exports = function( grunt ) {
 						dest: 'assets/src/sw/',
 						cwd: './node_modules/@staurand/ibic/dist/',
 					},
-					{
-						expand: true,
-						src: ['*.js'],
-						dest: 'assets/src/ui/',
-						cwd: './assets/src/ibic-ui-list/build/static/js/',
-						rename: function () {
-							return 'assets/src/ui/ui.js'
-						}
-					},
-					{
-						expand: true,
-						src: ['*.css'],
-						dest: 'assets/src/ui/',
-						cwd: './assets/src/ibic-ui-list/build/static/css/',
-						rename: function () {
-							return 'assets/src/ui/ui.css'
-						}
-					},
+
 				]
 			},
 			to_dist: {
@@ -106,7 +89,7 @@ module.exports = function( grunt ) {
 		},
 
 		clean: {
-			build: ['./assets/dist/', './assets/src/sw/', './assets/src/ui/']
+			build: ['./assets/dist/sw/', './assets/src/sw/', './assets/src/ui/']
 		}
 	} );
 

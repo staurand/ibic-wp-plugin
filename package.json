@@ -19,6 +19,6 @@
     "grunt-wp-readme-to-markdown": "^2.1.0"
   },
   "dependencies": {
-    "@staurand/ibic": "^1.1.0"
+    "@staurand/ibic": "^1.2.0"
   }
 }

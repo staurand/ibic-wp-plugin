@@ -14,6 +14,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function ibic_enqueue_admin_script() {
 	if ( ibic_current_user_can_compress_media() ) {
+		$php_ini_max_file_uploads = (int) ini_get('max_file_uploads');
+		if ($php_ini_max_file_uploads <= 0) {
+			$php_ini_max_file_uploads = 20; // Set it to PHP default.
+		}
 		$ibic_admin_config = wp_json_encode(
 			array(
 				'assets_path'     => IBIC_ASSETS_URL,
@@ -21,6 +25,8 @@ function ibic_enqueue_admin_script() {
 					'codecs_path'      => IBIC_ASSETS_URL . 'sw/codecs/',
 					'image_list_url'   => add_query_arg( '_wpnonce', wp_create_nonce( 'ibic_get_media' ), admin_url( 'admin-ajax.php?action=ibic_get_media' ) ),
 					'image_upload_url' => add_query_arg( '_wpnonce', wp_create_nonce( 'ibic_upload_compressed_media' ), admin_url( 'admin-ajax.php?action=ibic_upload_compressed_media' ) ),
+					// Limit max_file_uploads to 4 or less based on $php_ini_max_file_uploads.
+					'max_file_uploads' => apply_filters('ibic/sw_config/max_file_uploads', min(4, $php_ini_max_file_uploads))
 				),
 				'image_reset_url' => add_query_arg( '_wpnonce', wp_create_nonce( 'ibic_reset_media' ), admin_url( 'admin-ajax.php?action=ibic_reset_media' ) ),
 			)

@@ -157,10 +157,7 @@ function ibic_upload_compressed_media() {
 		$original_file_path = ibic_media_url_to_path( $url );
 		$medium_dir         = trailingslashit( dirname( $original_file_path ) );
 		$medium_filename    = basename( $url );
-		// @TODO: check normal to have missing index here?
-		if (!isset($files['media']['name'][ $index ])) {
-			continue;
-		}
+
 		foreach ( array_keys( $files['media']['name'][ $index ] ) as $file_format ) {
 			$new_file_name = sanitize_file_name( $medium_filename . '-ibic.' . $file_format );
 			$filepath      = $medium_dir . $new_file_name;
@@ -190,8 +187,10 @@ function ibic_upload_compressed_media() {
 			}
 		}
 	}
-
-	update_post_meta( $post_id, '_ibic_processed', '1' );
+	error_log(json_encode($_POST['partial']));
+	if (!isset($_POST['partial']) || $_POST['partial'] === '1') {
+		update_post_meta( $post_id, '_ibic_processed', '1' );
+	}
 	delete_post_meta( $post_id, '_ibic_error' );
 
 	wp_send_json_success();

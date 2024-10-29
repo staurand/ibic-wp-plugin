@@ -66,6 +66,20 @@ function ibic_compatibility_wasm_mime_type_check() {
 	);
 }
 
+function ibic_compatibility_max_file_uploads_check() {
+	$max_file_uploads = ini_get('max_file_uploads');
+	if (is_numeric($max_file_uploads)) {
+		$max_file_uploads_int = (int) $max_file_uploads;
+	} else {
+		$max_file_uploads_int = 0;
+	}
+	return array(
+		'success'      => $max_file_uploads_int >= 2,
+		'max_file_uploads' => $max_file_uploads,
+	);
+}
+
+
 /**
  * Add debug information to the "Site Health Info" admin page
  *
@@ -75,6 +89,7 @@ function ibic_compatibility_wasm_mime_type_check() {
  */
 function ibic_compatibility_debug_information( $info ) {
 	$wasm_mime_type_check = ibic_compatibility_wasm_mime_type_check();
+	$max_file_uploads_check = ibic_compatibility_max_file_uploads_check();
 	$info['ibic']         = array(
 		'label'  => __( 'IBIC plugin', 'ibic' ),
 		'fields' => array(
@@ -91,6 +106,11 @@ function ibic_compatibility_debug_information( $info ) {
 				'value' => $wasm_mime_type_check['success'] ? __( 'Correct', 'ibic' ) : __( 'Wrong', 'ibic' ),
 				'debug' => $wasm_mime_type_check['content_type'],
 			),
+			'ibic-max-file-uploads' => array(
+				'label' => __( '"max_file_uploads" PHP config', 'ibic' ),
+				'value' => $max_file_uploads_check['success'] ? __( 'Correct', 'ibic' ) : __( 'Wrong', 'ibic' ),
+				'debug' => $max_file_uploads_check['max_file_uploads'],
+			)
 		),
 	);
 	return $info;
