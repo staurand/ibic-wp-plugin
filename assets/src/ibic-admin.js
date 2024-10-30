@@ -46,30 +46,42 @@ const init = function ({ sendMessage, eventHandler, update }) {
 			return () => {
 				retry(imageId);
 			}
-		}
-		const translations = {
-			'Retry': i18n.__('Retry', 'ibic'),
-			'All images are compressed.': i18n.__('All images are compressed.', 'ibic'),
-			'Image upload failed': i18n.__('Image upload failed', 'ibic'),
-			'Loading...': i18n.__('Loading...', 'ibic'),
-
-			'UPLOAD_MAX_SIZE_ERROR': i18n.__('The uploaded file exceeds the server max upload size.', 'ibic'),
-			'CANT_READ_IMAGE_ERROR': i18n.__('Can’t read the image.', 'ibic'),
-			'CANT_DECODE_IMAGE_TOO_BIG_ERROR':  i18n.__('The image is too big and can’t be compressed.', 'ibic'),
-			'UNSUPPORTED_IMAGE_TYPE': i18n.__('Unsupported image type.', 'ibic'),
-			'CANT_OPTIMISE_IMAGE_ERROR': i18n.__('An error has occurred during the image compression.', 'ibic'),
 		};
+
 		const updateCompletionStatus = function () {
 			$('#ibic-completion-placeholder').load(ajaxurl + '?action=ibic_get_media_completion_status');
 		};
+		const refreshErrorList = function () {
+			$.get(config.image_error_list_url).then(function (response) {
+				if (response.length === 0) {
+					renderIbicUiList({ id: 'ibic-ui-placeholder-errors', state: 'LOADING', retryHandler });
+					$('#ibic-ui-placeholder-errors-wrapper').hide();
+				} else {
+					$('#ibic-ui-placeholder-errors-wrapper').show();
+				}
+				const imageList = response.map((image) => {
+					return {
+						state: 'error',
+						payload: {
+							...image,
+							errors: $.isArray(image.errors) ? image.errors : [image.errors]
+						}
+					};
+				});
+				renderIbicUiList({ imageList, id: 'ibic-ui-placeholder-errors', state: 'READY', retryHandler });
+			});
+
+		};
 		eventHandler.addEventListener('message', function (event) {
 			if (event.data.command === 'queue-updated') {
-				renderIbicUiList({ imageList: event.data.queue, state: 'READY', translations, retryHandler });
+				renderIbicUiList({ imageList: event.data.queue, state: 'READY', retryHandler });
 				// Update the completion status
 				updateCompletionStatus();
+				refreshErrorList();
 			}
 		});
-		renderIbicUiList({ translations, retryHandler })
+		renderIbicUiList({ retryHandler });
+		refreshErrorList();
 	}
 	sendMessage({command: 'get-update'});
 

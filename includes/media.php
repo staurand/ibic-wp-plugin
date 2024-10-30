@@ -16,29 +16,41 @@ require_once __DIR__ . '/helper.php';
  *
  * @return WP_Query
  */
-function ibic_get_media_to_process_as_wp_query() {
-	return new WP_Query(
-		array(
-			'post_type'      => 'attachment',
-			'post_status'    => 'inherit',
-			'post_mime_type' => array( 'image/jpeg', 'image/png' ),
-			'author'         => get_current_user_id(),
-			'posts_per_page' => 10,
-			// @TODO: create new table in DB and save media processed? (maybe a good way to store compression rate...).
-			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-			'meta_query'     => array(
-				'relation' => 'OR',
-				array(
-					'key'   => '_ibic_processed',
-					'value' => '0',
-				),
-				array(
-					'key'     => '_ibic_processed',
-					'compare' => 'NOT EXISTS',
-				),
+function ibic_get_media_to_process_as_wp_query($filter = 'TO_PROCESS') {
+	$query_params = array(
+		'post_type'      => 'attachment',
+		'post_status'    => 'inherit',
+		'post_mime_type' => array( 'image/jpeg', 'image/png' ),
+		'author'         => get_current_user_id(),
+		'posts_per_page' => 10,
+		// @TODO: create new table in DB and save media processed? (maybe a good way to store compression rate...).
+		// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+		'meta_query'     => array(
+			'relation' => 'OR',
+			array(
+				'key'   => '_ibic_processed',
+				'value' => '0',
 			),
-		)
+			array(
+				'key'     => '_ibic_processed',
+				'compare' => 'NOT EXISTS',
+			),
+		),
 	);
+	if ($filter === 'WITH_ERROR') {
+		$query_params['meta_query'] = array(
+			array(
+				'key'   => '_ibic_processed',
+				'value' => '1',
+			),
+			array(
+				'key'   => '_ibic_error',
+				'compare' => 'EXISTS',
+			)
+		);
+	}
+
+	return new WP_Query($query_params);
 }
 /**
  * Return a list of media to process filtered by type (jpg/png) and only for the current logged-in user (for security reason we don't want to process media uploaded by other users)
@@ -53,6 +65,26 @@ function ibic_get_media_to_process() {
 				'id'   => $medium->ID,
 				'name' => $medium->post_title,
 				'urls' => ibic_get_media_urls( $medium->ID ),
+			);
+		},
+		$media->posts
+	);
+}
+/**
+ * Return a list of media with errors.
+ *
+ * @return array[]
+ */
+function ibic_get_media_with_error() {
+	$media = ibic_get_media_to_process_as_wp_query('WITH_ERROR');
+	return array_map(
+		function ( $medium ) {
+			return array(
+				'id'   => $medium->ID,
+				'name' => $medium->post_title,
+				'urls' => ibic_get_media_urls( $medium->ID ),
+				'error' => true,
+				'errors' => get_post_meta($medium->ID, '_ibic_error', true),
 			);
 		},
 		$media->posts
@@ -96,7 +128,19 @@ function ibic_ajax_get_media() {
 		return;
 	}
 
-	wp_send_json( ibic_get_media_to_process(), 200 );
+	$filter = isset($_GET['filter']) ? sanitize_text_field( wp_unslash( $_GET['filter'] ) ) : '';
+	if (!in_array($filter, ['TO_PROCESS', 'WITH_ERROR'], true)) {
+		$filter = 'TO_PROCESS';
+	}
+	switch ($filter) {
+		case 'WITH_ERROR':
+			$media = ibic_get_media_with_error();
+			break;
+		default:
+			$media = ibic_get_media_to_process();
+			break;
+	}
+	wp_send_json( $media, 200 );
 }
 
 /**
@@ -199,6 +243,7 @@ function ibic_upload_compressed_media() {
 
 	// If there is no partial param, assume the service worker is not up-to-date and it's a request will all optimised medias.
 	if ( ! isset( $_POST['partial'] ) || '1' === $_POST['partial'] ) {
+		error_log('update_post_meta _ibic_processed to 1');
 		update_post_meta( $post_id, '_ibic_processed', '1' );
 	}
 	delete_post_meta( $post_id, '_ibic_error' );
@@ -212,6 +257,7 @@ function ibic_upload_compressed_media() {
  * @param int $post_id The post ID.
  */
 function ibic_media_reset_media_state( $post_id ) {
+	error_log('ibic_media_reset_media_state ' . $post_id );
 	delete_post_meta( $post_id, '_ibic_error' );
 	delete_post_meta( $post_id, '_ibic_processed' );
 }
@@ -246,6 +292,7 @@ function ibic_media_on_delete_attachment( $post_id ) {
  * @return array $data
  */
 function ibic_media_reset_media_state_on_change( $data, $post_id ) {
+	error_log('ibic_media_reset_media_state_on_change ' . $post_id );
 	ibic_media_reset_media_state( $post_id );
 	return $data;
 }

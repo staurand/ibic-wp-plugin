@@ -9,7 +9,7 @@ function UI({ state, imageList, retryHandler }) {
 	if (state === LOADING) {
 		statusText = __('Loading...', 'ibic');
 	} else if (state === READY && imageList.length === 0) {
-		statusText = __('All images are compressed.', 'ibic');
+		statusText = __('All images have been processed.', 'ibic');
 	}
 
 	if (statusText !== '') {

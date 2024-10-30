@@ -29,6 +29,7 @@ function ibic_enqueue_admin_script() {
 					'max_file_uploads' => apply_filters( 'ibic_sw_config_max_file_uploads', min( 4, $php_ini_max_file_uploads ) ),
 				),
 				'image_reset_url' => add_query_arg( '_wpnonce', wp_create_nonce( 'ibic_reset_media' ), admin_url( 'admin-ajax.php?action=ibic_reset_media' ) ),
+				'image_error_list_url'   => add_query_arg( '_wpnonce', wp_create_nonce( 'ibic_get_media' ), admin_url( 'admin-ajax.php?action=ibic_get_media&filter=WITH_ERROR' ) ),
 			)
 		);
 		wp_register_script( 'ibic-admin-config-js', '', array(), IBIC_VERSION, true );
