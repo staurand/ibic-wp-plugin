@@ -20,16 +20,16 @@ function ibic_enqueue_admin_script() {
 		}
 		$ibic_admin_config = wp_json_encode(
 			array(
-				'assets_path'     => IBIC_ASSETS_URL,
-				'sw_config'       => array(
+				'assets_path'          => IBIC_ASSETS_URL,
+				'sw_config'            => array(
 					'codecs_path'      => IBIC_ASSETS_URL . 'sw/codecs/',
 					'image_list_url'   => add_query_arg( '_wpnonce', wp_create_nonce( 'ibic_get_media' ), admin_url( 'admin-ajax.php?action=ibic_get_media' ) ),
 					'image_upload_url' => add_query_arg( '_wpnonce', wp_create_nonce( 'ibic_upload_compressed_media' ), admin_url( 'admin-ajax.php?action=ibic_upload_compressed_media' ) ),
 					// Limit max_file_uploads to 4 or less based on $php_ini_max_file_uploads.
 					'max_file_uploads' => apply_filters( 'ibic_sw_config_max_file_uploads', min( 4, $php_ini_max_file_uploads ) ),
 				),
-				'image_reset_url' => add_query_arg( '_wpnonce', wp_create_nonce( 'ibic_reset_media' ), admin_url( 'admin-ajax.php?action=ibic_reset_media' ) ),
-				'image_error_list_url'   => add_query_arg( '_wpnonce', wp_create_nonce( 'ibic_get_media' ), admin_url( 'admin-ajax.php?action=ibic_get_media&filter=WITH_ERROR' ) ),
+				'image_reset_url'      => add_query_arg( '_wpnonce', wp_create_nonce( 'ibic_reset_media' ), admin_url( 'admin-ajax.php?action=ibic_reset_media' ) ),
+				'image_error_list_url' => add_query_arg( '_wpnonce', wp_create_nonce( 'ibic_get_media' ), admin_url( 'admin-ajax.php?action=ibic_get_media&filter=WITH_ERROR' ) ),
 			)
 		);
 		wp_register_script( 'ibic-admin-config-js', '', array(), IBIC_VERSION, true );
