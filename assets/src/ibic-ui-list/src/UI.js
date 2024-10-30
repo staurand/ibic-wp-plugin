@@ -7,9 +7,9 @@ import { __ } from '@wordpress/i18n';
 function UI({ state, imageList, retryHandler }) {
 	let statusText = '';
 	if (state === LOADING) {
-		statusText = __('Loading...', 'ibic');
+		statusText = __('Loading...', 'in-browser-image-compression');
 	} else if (state === READY && imageList.length === 0) {
-		statusText = __('All images have been processed.', 'ibic');
+		statusText = __('All images have been processed.', 'in-browser-image-compression');
 	}
 
 	if (statusText !== '') {

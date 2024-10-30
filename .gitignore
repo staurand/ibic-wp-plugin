@@ -13,3 +13,5 @@ assets/src/sw
 assets/src/ui
 .idea
 /.phpunit.result.cache
+languages/*
+!languages/in-browser-image-compression.pot

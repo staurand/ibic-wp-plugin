@@ -1,5 +1,5 @@
 const fs = require('fs');
-
+const { exec } = require("child_process");
 module.exports = function( grunt ) {
 
 	'use strict';
@@ -16,23 +16,6 @@ module.exports = function( grunt ) {
 					'README.md': 'readme.txt'
 				}
 			},
-		},
-
-		makepot: {
-			target: {
-				options: {
-					domainPath: '/languages',
-					exclude: [ '\.git/*', 'bin/*', 'node_modules/*', 'tests/*' ],
-					mainFile: 'ibic.php',
-					potFilename: 'ibic.pot',
-					potHeaders: {
-						poedit: true,
-						'x-poedit-keywordslist': true
-					},
-					type: 'wp-plugin',
-					updateTimestamp: true
-				}
-			}
 		},
 
 		copy: {
@@ -93,12 +76,27 @@ module.exports = function( grunt ) {
 		}
 	} );
 
-	grunt.loadNpmTasks( 'grunt-wp-i18n' );
 	grunt.loadNpmTasks( 'grunt-wp-readme-to-markdown' );
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-cache-bust');
+	grunt.registerTask('makepot', function () {
+		const done = this.async();
+		exec("wp i18n make-pot ./ languages/in-browser-image-compression.pot --domain=in-browser-image-compression --include=\"*.php,assets/dist/*.js,assets/dist/*/*.js\"", (error, stdout, stderr) => {
+			if (error) {
+				console.log(`error: ${error.message}`);
+				return;
+			}
+			if (stderr) {
+				console.log(`stderr: ${stderr}`);
+				return;
+			}
+			console.log(`stdout: ${stdout}`);
+			done();
+		});
+
+	})
 	grunt.registerTask('increment_build_version', 'Increment the build version', function () {
 		var done = this.async();
 		fs.readFile('build-number.php', 'utf8', function (err, data) {

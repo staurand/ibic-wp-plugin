@@ -1,1 +1,1 @@
-<?php return 73; // phpcs:ignore Squiz.Commenting.FileComment.Missing
+<?php return 75; // phpcs:ignore Squiz.Commenting.FileComment.Missing

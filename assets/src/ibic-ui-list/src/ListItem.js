@@ -39,7 +39,7 @@ function ListItem({ error, errors, state, id, name, thumbnail, retryHandler }) {
 
 
 		{ hasError ? <button className="ibic-list__item__retry ibic-split-button" onClick={ retryHandler(id) }>
-			<span className="ibic-split-button__text">{ __('Retry', 'ibic') }</span>
+			<span className="ibic-split-button__text">{ __('Retry', 'in-browser-image-compression') }</span>
 			<span className="ibic-split-button__icon dashicons-before dashicons-controls-repeat"></span>
 		</button> : null}
 
@@ -49,24 +49,24 @@ function ListItem({ error, errors, state, id, name, thumbnail, retryHandler }) {
 const getStateText = function (computedState) {
 	switch (computedState) {
 		case 'error':
-			return __('Error', 'ibic');
+			return __('Error', 'in-browser-image-compression');
 		case 'processing':
-			return __('Processing', 'ibic');
+			return __('Processing', 'in-browser-image-compression');
 		case 'processed':
-			return __('Processed', 'ibic');
+			return __('Processed', 'in-browser-image-compression');
 		case 'unknown':
-			return __('Waiting', 'ibic');
+			return __('Waiting', 'in-browser-image-compression');
 	}
 }
 
 const getErrorText = function (errorMessage) {
 	const knownErrorMessages = {
-		'UPLOAD_MAX_SIZE_ERROR': __('The uploaded file exceeds the server max upload size.', 'ibic'),
-		'CANT_READ_IMAGE_ERROR': __('Can’t read the image.', 'ibic'),
-		'CANT_DECODE_IMAGE_TOO_BIG_ERROR': __('The image is too big and can’t be compressed.', 'ibic'),
-		'UNSUPPORTED_IMAGE_TYPE': __('Unsupported image type.', 'ibic'),
-		'CANT_OPTIMISE_IMAGE_ERROR': __('An error has occurred during the image compression.', 'ibic'),
-		'IMAGE_UPLOAD_FAILED_ERROR': __('An error has occurred during the image upload.', 'ibic'),
+		'UPLOAD_MAX_SIZE_ERROR': __('The uploaded file exceeds the server max upload size.', 'in-browser-image-compression'),
+		'CANT_READ_IMAGE_ERROR': __('Can’t read the image.', 'in-browser-image-compression'),
+		'CANT_DECODE_IMAGE_TOO_BIG_ERROR': __('The image is too big and can’t be compressed.', 'in-browser-image-compression'),
+		'UNSUPPORTED_IMAGE_TYPE': __('Unsupported image type.', 'in-browser-image-compression'),
+		'CANT_OPTIMISE_IMAGE_ERROR': __('An error has occurred during the image compression.', 'in-browser-image-compression'),
+		'IMAGE_UPLOAD_FAILED_ERROR': __('An error has occurred during the image upload.', 'in-browser-image-compression'),
 	};
 	if (knownErrorMessages[errorMessage]) {
 		return knownErrorMessages[errorMessage];

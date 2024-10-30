@@ -1,7 +1,7 @@
 import { initSw } from './sw/sw-init.js';
 const $ = window.jQuery;
 const config = window.IBIC_ADMIN_CONFIG;
-const i18n = window.wp.i18n;
+const { __ } = window.wp.i18n;
 
 const renderErrorFactory = ({ $ }) => {
 	return (error) => {
@@ -39,7 +39,7 @@ const init = function ({ sendMessage, eventHandler, update }) {
 					sendMessage({command: 'get-update'});
 				})
 				.catch(() => {
-					renderError(i18n.__('The retry failed, maybe the image does not exist anymore.', 'ibic'));
+					renderError(__('The retry failed, maybe the image does not exist anymore.', 'in-browser-image-compression'));
 				});
 		};
 		const retryHandler = (imageId) => {
@@ -109,7 +109,7 @@ const init = function ({ sendMessage, eventHandler, update }) {
 $(function () {
 	const onError = (error) => {
 		console.error(error)
-		renderError(i18n.__('Sorry, the image compression is not supported by your browser.', 'ibic'));
+		renderError(__('Sorry, the image compression is not supported by your browser.', 'in-browser-image-compression'));
 	};
 	initSw({
 		sw_url: config.assets_path + 'sw/sw.js',

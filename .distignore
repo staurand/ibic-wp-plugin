@@ -42,3 +42,7 @@ node_modules
 assets/src
 .idea
 .phpunit.result.cache
+
+# Exclude languages it's not required, translations will be loaded from wordpress.org
+# We keep the folder to make test during development
+languages

@@ -184,7 +184,7 @@ function ibic_upload_compressed_media() {
 	$post_id    = isset( $_POST['id'] ) ? intval( $_POST['id'] ) : 0;
 	$medium_url = wp_get_attachment_url( $post_id );
 	if ( ! $medium_url ) {
-		ibic_upload_compressed_media_failed( __( 'Trying to update non existing media', 'ibic' ) );
+		ibic_upload_compressed_media_failed( __( 'Trying to update non existing media', 'in-browser-image-compression' ) );
 	}
 
 	if ( isset( $_POST['error'] ) ) {
@@ -193,11 +193,11 @@ function ibic_upload_compressed_media() {
 	}
 
 	if ( empty( $_POST ) && empty( $_FILES ) && ! empty( $_SERVER['CONTENT_LENGTH'] ) && (int) $_SERVER['CONTENT_LENGTH'] > wp_max_upload_size() ) {
-		ibic_upload_compressed_media_failed( __( 'The uploaded file exceeds the server max upload size.', 'ibic' ), 0, 413 );
+		ibic_upload_compressed_media_failed( __( 'The uploaded file exceeds the server max upload size.', 'in-browser-image-compression' ), 0, 413 );
 	}
 
 	if ( ! isset( $_POST['id'] ) || ! isset( $_POST['urls'] ) || ! is_array( $_POST['urls'] ) ) {
-		ibic_upload_compressed_media_failed( __( 'Parameters are missing to update the media', 'ibic' ), 0, 400 );
+		ibic_upload_compressed_media_failed( __( 'Parameters are missing to update the media', 'in-browser-image-compression' ), 0, 400 );
 	}
 
 	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
@@ -239,7 +239,7 @@ function ibic_upload_compressed_media() {
 			$upload_result = wp_upload_bits( basename( $filepath ), null, $bits, get_the_date( 'Y/m', $post_id ) );
 			if ( $upload_result['error'] ) {
 				/* translators: %s: file path */
-				ibic_upload_compressed_media_failed( sprintf( __( 'Could not write file %s', 'ibic' ), $filepath ), $post_id );
+				ibic_upload_compressed_media_failed( sprintf( __( 'Could not write file %s', 'in-browser-image-compression' ), $filepath ), $post_id );
 			}
 		}
 	}
@@ -332,7 +332,7 @@ function ibic_ajax_media_completion_status() {
 		echo esc_html(
 			sprintf(
 				/* Translators: %1$d number of images */
-				_n( '%1$d image to be processed', '%1$d images to be processed', $count, 'ibic' ),
+				_n( '%1$d image to be processed', '%1$d images to be processed', $count, 'in-browser-image-compression' ),
 				$count
 			)
 		);

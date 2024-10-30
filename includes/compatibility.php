@@ -40,7 +40,7 @@ function ibic_compatibility_activation_check() {
  */
 function ibic_compatibility_show_notice() {
 	if ( get_transient( 'ibic_compatibility_admin_notice' ) ) {
-		?><div class="error notice is-dismissible"><p><?php esc_html_e( 'The IBIC plugin requires the Apache module "mod_rewrite" and https, please contact your administrator or hosting provider.', 'ibic' ); ?></p></div>
+		?><div class="error notice is-dismissible"><p><?php esc_html_e( 'The IBIC plugin requires the Apache module "mod_rewrite" and https, please contact your administrator or hosting provider.', 'in-browser-image-compression' ); ?></p></div>
 		<?php
 		delete_transient( 'ibic_compatibility_admin_notice' );
 	}
@@ -96,25 +96,25 @@ function ibic_compatibility_max_file_uploads_check() {
 function ibic_compatibility_debug_information( $info ) {
 	$wasm_mime_type_check   = ibic_compatibility_wasm_mime_type_check();
 	$max_file_uploads_check = ibic_compatibility_max_file_uploads_check();
-	$info['ibic']           = array(
-		'label'  => __( 'IBIC plugin', 'ibic' ),
+	$info['in-browser-image-compression']           = array(
+		'label'  => __( 'IBIC plugin', 'in-browser-image-compression' ),
 		'fields' => array(
 			'ibic-mod-rewrite'      => array(
-				'label' => __( 'The server supports URL rewriting', 'ibic' ),
-				'value' => got_url_rewrite() ? __( 'Yes', 'ibic' ) : __( 'No', 'ibic' ),
+				'label' => __( 'The server supports URL rewriting', 'in-browser-image-compression' ),
+				'value' => got_url_rewrite() ? __( 'Yes', 'in-browser-image-compression' ) : __( 'No', 'in-browser-image-compression' ),
 			),
 			'ibic-ssl'              => array(
-				'label' => __( 'The site is secured (https enabled)', 'ibic' ),
-				'value' => is_ssl() ? __( 'Yes', 'ibic' ) : __( 'No', 'ibic' ),
+				'label' => __( 'The site is secured (https enabled)', 'in-browser-image-compression' ),
+				'value' => is_ssl() ? __( 'Yes', 'in-browser-image-compression' ) : __( 'No', 'in-browser-image-compression' ),
 			),
 			'ibic-wasm-mime-type'   => array(
-				'label' => __( 'Wasm file mime type', 'ibic' ),
-				'value' => $wasm_mime_type_check['success'] ? __( 'Correct', 'ibic' ) : __( 'Wrong', 'ibic' ),
+				'label' => __( 'Wasm file mime type', 'in-browser-image-compression' ),
+				'value' => $wasm_mime_type_check['success'] ? __( 'Correct', 'in-browser-image-compression' ) : __( 'Wrong', 'in-browser-image-compression' ),
 				'debug' => $wasm_mime_type_check['content_type'],
 			),
 			'ibic-max-file-uploads' => array(
-				'label' => __( '"max_file_uploads" PHP config', 'ibic' ),
-				'value' => $max_file_uploads_check['success'] ? __( 'Correct', 'ibic' ) : __( 'Wrong', 'ibic' ),
+				'label' => __( '"max_file_uploads" PHP config', 'in-browser-image-compression' ),
+				'value' => $max_file_uploads_check['success'] ? __( 'Correct', 'in-browser-image-compression' ) : __( 'Wrong', 'in-browser-image-compression' ),
 				'debug' => $max_file_uploads_check['max_file_uploads'],
 			),
 		),
