@@ -52,6 +52,13 @@ jpg and png are supported and will be optimized.
 
 == Changelog ==
 
+= 2.0.0 =
+* The media compression status page now displays errors in a separate list
+* New design
+* Batch upload optimized images to avoid some server limitations (like max_file_uploads)
+* New health check available in the Site Health page /wp-admin/site-health.php?tab=debug
+* Fix missing translations
+
 = 1.1.1 =
 * The media compression status page now displays the remaining images to be compressed
 * Add loading state to the image compression status list
