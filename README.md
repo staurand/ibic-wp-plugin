@@ -1,9 +1,9 @@
 # In Browser Image Compression #
 **Contributors:** [staurand](https://profiles.wordpress.org/staurand/)  
 **Tags:** image optimization, webp  
-**Requires at least:** 5.2  
-**Tested up to:** 6.3.1  
-**Requires PHP:** 5.6  
+**Requires at least:** 6.6  
+**Tested up to:** 6.6.2  
+**Requires PHP:** 7.4  
 **Stable tag:** 2.0.0  
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
@@ -51,6 +51,13 @@ jpg and png are supported and will be optimized.
 1. The media compression status page
 
 ## Changelog ##
+
+### 2.0.0 ###
+* The media compression status page now displays errors in a separate list
+* New design
+* Batch upload optimized images to avoid some server limitations (like max_file_uploads)
+* New health check available in the Site Health page /wp-admin/site-health.php?tab=debug
+* Fix missing translations
 
 ### 1.1.1 ###
 * The media compression status page now displays the remaining images to be compressed
