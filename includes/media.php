@@ -245,7 +245,7 @@ function ibic_upload_compressed_media() {
 	}
 
 	// If there is no partial param, assume the service worker is not up-to-date and it's a request will all optimised medias.
-	if ( ! isset( $_POST['partial'] ) || '1' === $_POST['partial'] ) {
+	if ( ! isset( $_POST['partial'] ) || '0' === $_POST['partial'] ) {
 		update_post_meta( $post_id, '_ibic_processed', '1' );
 	}
 	delete_post_meta( $post_id, '_ibic_error' );
