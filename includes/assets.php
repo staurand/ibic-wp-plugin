@@ -50,10 +50,10 @@ SCRIPT
 			wp_enqueue_style( 'ibic-admin-ui-css', IBIC_ASSETS_URL . 'ui/index.css', null, IBIC_VERSION );
 			wp_enqueue_script( 'ibic-admin-ui-js', IBIC_ASSETS_URL . 'ui/index.js', $assets['dependencies'], IBIC_VERSION, true );
 			$ibic_admin_deps[] = 'ibic-admin-ui-js';
-			wp_set_script_translations('ibic-admin-ui-js', 'in-browser-image-compression');
+			wp_set_script_translations( 'ibic-admin-ui-js', 'in-browser-image-compression' );
 		}
 		wp_enqueue_script( 'ibic-admin-js', IBIC_ASSETS_URL . 'ibic-admin.js', $ibic_admin_deps, IBIC_VERSION, true );
-		wp_set_script_translations('ibic-admin-js', 'in-browser-image-compression');
+		wp_set_script_translations( 'ibic-admin-js', 'in-browser-image-compression' );
 	}
 }
 

@@ -94,9 +94,9 @@ function ibic_compatibility_max_file_uploads_check() {
  * @return mixed
  */
 function ibic_compatibility_debug_information( $info ) {
-	$wasm_mime_type_check   = ibic_compatibility_wasm_mime_type_check();
-	$max_file_uploads_check = ibic_compatibility_max_file_uploads_check();
-	$info['in-browser-image-compression']           = array(
+	$wasm_mime_type_check                 = ibic_compatibility_wasm_mime_type_check();
+	$max_file_uploads_check               = ibic_compatibility_max_file_uploads_check();
+	$info['in-browser-image-compression'] = array(
 		'label'  => __( 'IBIC plugin', 'in-browser-image-compression' ),
 		'fields' => array(
 			'ibic-mod-rewrite'      => array(
